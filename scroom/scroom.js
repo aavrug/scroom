@@ -92,7 +92,6 @@
 	            	if (e.pageX == clickX && e.pageY == clickY) {
 						return false;
 					}
-	            	$('#scroom-modal').modal();
 	            }
 	        },
 	    });

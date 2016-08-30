@@ -21,7 +21,7 @@ div.scroom-map div.scroom-img{
 }
 
 div#scroom-block  div.scroom-map div.scroom-img{
-  background-image: url('big.jpg');
+  background-image: url('../img/big.jpg');
 }
 
 div.scroom-options {
