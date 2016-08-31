@@ -22,17 +22,38 @@ For removing the selected area just click on the selected area and for this the 
 
 ``` 
 boxes : For populating selected areas.
-saveDataUrl : Url for saving the form data.
-saveCoordinateUrl : Url for saving the coordinates.
+saveDataUrl : Url which will handle the form data.
+saveCoordinateUrl : Url which will hadle the coordinates.
+deleteUrl : Url which will use for deletion of saved selected area.
+hoverData : Fields name display on hover with values. 
 ```
 
-## For populating save selected area
+## For populating saved selected area
 
 ```
-	var savedBoxes = [{"id":"square-306-238","left":"306","top":"238","width":"40","height":"27"}, {"id":"square-660-312","left":"660","top":"312","width":"80","height":"51"}, {"id":"square-380-265","left":"380","top":"265","width":"180","height":"124"}];
+	var savedBoxes = [
+		{"id":"square-306-238","left":"306","top":"238","width":"40","height":"27"},
+		{"id":"square-660-312","left":"660","top":"312","width":"80","height":"51"},
+		{"id":"square-380-265","left":"380","top":"265","width":"180","height":"124"}
+	];
+	
 	$('#scroom-block').scrollZoom({boxes: savedBoxes});
+```
+
+## For displaying details of selected area on hover
+
+```
+	var savedBoxes = [
+		{"id":"square-306-238","left":"306","top":"238","width":"40","height":"27", "name":"test1", "description":"testdes1"},
+		{"id":"square-660-312","left":"660","top":"312","width":"80","height":"51", "name":"test2", "description":"testdes2"},
+		{"id":"square-380-265","left":"380","top":"265","width":"180","height":"124", "name":"test3", "description":"testdes3"}
+	];
+
+	var displayFields = ['name', 'description'];
+    
+    $('#scroom-block').scrollZoom({boxes: savedBoxes, hoverData: displayFields});
 ```
 
 ## Upcomping
 
-Displaying saved data on hover.
+Responsive feature.
