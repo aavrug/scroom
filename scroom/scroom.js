@@ -8,7 +8,6 @@
  * and GPL (LICENSE) licenses.
  *
  * @URL      https://github.com/aavrug/scroom
- * @Example  https://github.com/aavrug/scroom/tree/master/demo/example.html
  *
  **/
 
@@ -19,7 +18,7 @@
 		var blockLeft = blockPos.left;
 		var blockTop  = blockPos.top;
 		var imgClass  = '#'+id+' .scroom-map .scroom-img';
-    	var clicked   = false, selectArea = false, selectAreaClicked = false, drag = false, first = false, overLay = false, realChangeX, realChangeY, clickY, clickX, width, height, actX, actY, boxes = '';
+		var clicked   = false, selectArea = false, selectAreaClicked = false, drag = false, first = false, overLay = false, realChangeX, realChangeY, clickY, clickX, width, height, actX, actY, boxes, saveCoordinateUrl, saveDataUrl = '';
     	var divWidth  = $('#'+id).width();
     	var divHeight = $('#'+id).height();
 
@@ -171,14 +170,18 @@
     	});
 
     	$('#'+id+' #scroom-form').submit(function () {
-    		$.ajax({
-    			type: "POST",
-     			url: '',
-     			data: $('#'+id+' #scroom-form').serialize(),
-     			success: function() {
-
-     			}
-			});
+			if(typeof n != 'undefined' && typeof n.saveDataUrl != 'undefined'){
+				$.ajax({
+					type: "POST",
+					url: n.saveDataUrl,
+					data: $('#'+id+' #scroom-form').serialize(),
+					success: function() {
+						if(typeof n != 'undefined' && typeof n.saveCoordinateUrl != 'undefined'){
+							saveCoordinates($('.scroom-img .scroom-square:last-child'));
+						}
+					}
+				});
+			}
 			$('#'+id+' #scroom-modal').modal('hide');
 			return false;
 		});
@@ -233,8 +236,21 @@
 		$(imgClass).append('<div class="scroom-square" id="'+boxData.id+'" positionx="'+boxData.left+'" positiony="'+boxData.top+'" style="left:'+boxData.left+'px; top:'+boxData.top+'px; width:'+boxData.width+'px; height:'+boxData.height+'px;"></div>');
 	}
 
-	function saveBox() {
-
+	function saveCoordinates(lastChild, requestUrl) {
+		var savedArea = lastChild[0]['id'];
+		var style = $('#'+savedArea).attr('style').split(" ");
+		var x = $.trim(style['1'].replace("px;", ""));
+		var y = $.trim(style['3'].replace("px;", ""));
+		var w = $.trim(style['5'].replace("px;", ""));
+		var h = $.trim(style['7'].replace("px;", ""));
+		$.ajax({
+			type: "POST",
+			url: requestUrl,
+			data: {left: x, top: y, width: w, height: h},
+			success: function() {
+				console.log('saved!');
+			}
+		});
 	}
 
 	function disablePageScroll(id) {
