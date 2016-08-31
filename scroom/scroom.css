@@ -1,0 +1,54 @@
+div.scroom-block {
+  display: block;
+  width: 912px;
+  height:465px;
+}
+
+div.scroom-map {
+  overflow: hidden;
+  position: absolute;
+}
+div.scroom-map div.scroom-img{
+  display: block;
+  width: 65em;
+  height: 33em;
+  border: 1px solid #000000;
+  background-repeat: no-repeat;
+  background-position: center;
+  transform: scale(1, 1);
+  -webkit-transform: scale(1, 1);
+  -moz-transform: scale(1, 1);
+}
+
+div.scroom-options {
+  position: relative;
+  width: 40px;
+  height: 80px;
+  background: rgba(101, 150, 145, 0.87);
+  float: left;
+  top: 0;
+  z-index: 999;
+  right: 0;
+}
+
+div.scroom-options span.scroom-area {
+  display: block;
+  width: 20px;
+  height: 20px;
+  margin: 10px;
+  margin-left: 8px;
+  border: 2px solid black;
+}
+
+.scroom-square { 
+    border: 2px solid red; 
+    position: absolute;
+}
+.square-detail {
+  position: absolute;
+  background: red;
+  border-radius: 6px;
+  padding: 12px;
+  margin-top: -70px;
+  z-index: 9;
+}

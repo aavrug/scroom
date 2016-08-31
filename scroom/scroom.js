@@ -18,7 +18,7 @@
 		var blockLeft = blockPos.left;
 		var blockTop  = blockPos.top;
 		var imgClass  = '#'+id+' .scroom-map .scroom-img';
-		var clicked   = false, selectArea = false, selectAreaClicked = false, drag = false, first = false, overLay = false, realChangeX, realChangeY, clickY, clickX, width, height, actX, actY, boxes, saveCoordinateUrl, saveDataUrl = '';
+		var clicked   = false, selectArea = false, selectAreaClicked = false, drag = false, first = false, overLay = false, deleteUrl = false, realChangeX, realChangeY, clickY, clickX, width, height, actX, actY, boxes, saveCoordinateUrl, saveDataUrl, hoverData = '';
     	var divWidth  = $('#'+id).width();
     	var divHeight = $('#'+id).height();
 
@@ -37,6 +37,9 @@
 
 	    $(imgClass).on({
 	        'mousemove': function(e) {
+				if (e.target.className != 'scroom-square') {
+					$('.square-detail').remove();
+				}
 	            if (!selectArea) {
 	                clicked && scrollImage(e);
 	            } else {
@@ -54,8 +57,11 @@
 	            actX = currentPos[0].slice(0, -2);
 	        	actY = currentPos[1].slice(0, -2);
 	            if (e.target.className == 'scroom-square' && selectArea) {
+					if(typeof n != 'undefined' && typeof n.deleteUrl != 'undefined'){
+						deleteUrl = n.deleteUrl;
+					}
 				    var squareId = e.target.id;
-				    $.fn.scrollZoom.remove(squareId);
+				    $.fn.scrollZoom.remove(squareId, deleteUrl);
 	            } else {
 		            if (!selectArea) {
 		                clicked = true;
@@ -93,8 +99,22 @@
 					}
 					$('#scroom-modal').modal();
 	            }
-	        },
+	        }
 	    });
+
+		$(document).on('mouseenter', '.scroom-square', function(e) {
+	        var squareId = $(this).attr('id');
+	        if(typeof n != 'undefined' && typeof n.hoverData != 'undefined' && !selectArea){
+				var hoverStructure = '<div class="square-detail" id="'+squareId+'-detail">';
+				$.each(n.hoverData, function( index, key ) {
+					var value = $('#'+squareId).attr(key);
+					hoverStructure += '<div><span class="data-key">'+key+'</span>: <span class="data-value">'+value+'</span></div>';
+				});
+				hoverStructure += '</div>';
+				$('#'+squareId).append(hoverStructure);
+	        }
+
+		});
 
 	    var scrollImage = function(e) {
 	    	disablePageScroll(id);
@@ -223,17 +243,49 @@
 
 	};
 
-	$.fn.scrollZoom.remove = function(id) {
+	$.fn.scrollZoom.remove = function(id, deleteUrl) {
 		if ($('#'+id).length > 0) {
 			var response = confirm("Would you like to delete this selected area!");
 			if (response == true) {
-			    $('#'+id).remove();
+				if (deleteUrl) {
+					var style = $('#'+id).attr('style').split(" ");
+					var x = $.trim(style['1'].replace("px;", ""));
+					var y = $.trim(style['3'].replace("px;", ""));
+					var w = $.trim(style['5'].replace("px;", ""));
+					var h = $.trim(style['7'].replace("px;", ""));
+				    $.ajax({
+						type: "POST",
+						url: deleteUrl,
+						data: {left: x, top: y, width: w, height: h},
+						success: function() {
+						    $('#'+id).remove();
+						}
+					});
+				} else {
+					$('#'+id).remove();
+				}
 			}
 		}
 	};
 
 	function appendBox(boxData, imgClass) {
-		$(imgClass).append('<div class="scroom-square" id="'+boxData.id+'" positionx="'+boxData.left+'" positiony="'+boxData.top+'" style="left:'+boxData.left+'px; top:'+boxData.top+'px; width:'+boxData.width+'px; height:'+boxData.height+'px;"></div>');
+		var stringAttr = '<div class="scroom-square" style="left:'+boxData.left+'px; top:'+boxData.top+'px; width:'+boxData.width+'px; height:'+boxData.height+'px;"';
+		for (var key in boxData) {
+			if (boxData.hasOwnProperty(key)) {
+				var value = boxData[key];
+				if (key == 'left') {
+					stringAttr += ' positionx="'+value+'"';
+				}
+				if (key == 'top') {
+			 		stringAttr += ' positiony="'+value+'"';
+				}
+				if (key != 'left' && key != 'top' && key != 'width' && key != 'height') {
+				 	stringAttr += ' '+key+'="'+value+'"';
+		  		}
+			}
+		}
+		stringAttr += '></div>';
+		$(imgClass).append(stringAttr);
 	}
 
 	function saveCoordinates(lastChild, requestUrl) {
