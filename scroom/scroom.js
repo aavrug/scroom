@@ -109,9 +109,9 @@
 
 		$(document).on('mouseenter', '.scroom-square', function(e) {
 	        var squareId = $(this).attr('id');
-	        var styleData = squareId.split("-");
+	        var styleData = $(this).attr('style').split(' ');
 	        if(typeof n != 'undefined' && typeof n.hoverData != 'undefined' && !selectArea){
-				var hoverStructure = '<div class="square-detail" id="'+squareId+'-detail" style="left:'+styleData[1]+'px; top:'+styleData[2]+'px;">';
+				var hoverStructure = '<div class="square-detail" id="'+squareId+'-detail" style="left: '+styleData[1]+'; top: '+styleData[3]+'">';
 				$.each(n.hoverData, function( index, key ) {
 					var value = $('#'+squareId).attr(key);
 					hoverStructure += '<div><span class="data-key">'+key+'</span>: <span class="data-value">'+value+'</span></div>';
@@ -275,7 +275,7 @@
 	};
 
 	function appendBox(boxData, imgClass) {
-		var stringAttr = '<div class="scroom-square" style="left:'+boxData.left+'px; top:'+boxData.top+'px; width:'+boxData.width+'px; height:'+boxData.height+'px;"';
+		var stringAttr = '<div class="scroom-square" style="left: '+boxData.left+'px; top: '+boxData.top+'px; width: '+boxData.width+'px; height: '+boxData.height+'px;"';
 		for (var key in boxData) {
 			if (boxData.hasOwnProperty(key)) {
 				var value = boxData[key];
