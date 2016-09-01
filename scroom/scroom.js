@@ -36,6 +36,9 @@
 	    }
 
 	    $(imgClass).on({
+			'contextmenu' : function(e) {
+				return false;
+			},
 	        'mousemove': function(e) {
 				if (e.target.className != 'scroom-square') {
 					$('.square-detail').remove();
@@ -97,7 +100,9 @@
 	            	if (e.pageX == clickX && e.pageY == clickY) {
 						return false;
 					}
-					$('#scroom-modal').modal();
+					if(typeof n != 'undefined' && typeof n.saveDataUrl != 'undefined'){
+						$('#scroom-modal').modal();
+					}
 	            }
 	        }
 	    });
