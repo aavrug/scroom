@@ -109,14 +109,15 @@
 
 		$(document).on('mouseenter', '.scroom-square', function(e) {
 	        var squareId = $(this).attr('id');
+	        var styleData = squareId.split("-");
 	        if(typeof n != 'undefined' && typeof n.hoverData != 'undefined' && !selectArea){
-				var hoverStructure = '<div class="square-detail" id="'+squareId+'-detail">';
+				var hoverStructure = '<div class="square-detail" id="'+squareId+'-detail" style="left:'+styleData[1]+'px; top:'+styleData[2]+'px;">';
 				$.each(n.hoverData, function( index, key ) {
 					var value = $('#'+squareId).attr(key);
 					hoverStructure += '<div><span class="data-key">'+key+'</span>: <span class="data-value">'+value+'</span></div>';
 				});
 				hoverStructure += '</div>';
-				$('#'+squareId).append(hoverStructure);
+				$('#'+squareId).after(hoverStructure);
 	        }
 
 		});
