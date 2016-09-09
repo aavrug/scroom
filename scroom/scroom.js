@@ -108,6 +108,7 @@
 	    });
 
 		$(document).on('mouseenter', '.scroom-square', function(e) {
+			$('.square-detail').remove();
 	        var squareId = $(this).attr('id');
 	        var styleData = $(this).attr('style').split(' ');
 	        if(typeof n != 'undefined' && typeof n.hoverData != 'undefined' && !selectArea){
@@ -116,7 +117,7 @@
 					var value = $('#'+squareId).attr(key);
 					hoverStructure += '<div><span class="data-key">'+key+'</span>: <span class="data-value">'+value+'</span></div>';
 				});
-				hoverStructure += '</div>';
+				hoverStructure += '<span class="arrow"></span></div>';
 				$('#'+squareId).after(hoverStructure);
 	        }
 

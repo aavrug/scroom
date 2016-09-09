@@ -54,6 +54,17 @@ hoverData : Fields name display on hover with values.
     $('#scroom-block').scrollZoom({boxes: savedBoxes, hoverData: displayFields});
 ```
 
+## Responsive Div
+
+In your styling file just set width and height to "scroom-block" class as per your requirement.
+
+```
+    div.scroom-block {
+        width: 912px;
+        height: 465px;
+    }
+```
+
 ## Upcoming
 
-Responsive feature.
+Different shapes of selection.
