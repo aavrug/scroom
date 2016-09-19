@@ -65,6 +65,10 @@ In your styling file just set width and height to "scroom-block" class as per yo
     }
 ```
 
+## Demo
+
+For demo please visit [here](https://rawgit.com/aavrug/scroom/master/demo/example.html)
+
 ## Upcoming
 
 Different shapes of selection.
